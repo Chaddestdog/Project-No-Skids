@@ -12,7 +12,7 @@ local Messagebox = function(Text, Caption, Flags)
     return Value;
 end;
 
-local load = function(Name)
+local Load = function(Name)
     local Game = rawget(Games, Name);
     if (not Game) then return LocalPlayer:Kick("Unsupported Game") end;
     if (Game.Status ~= "UD" and Messagebox("The script is currently " .. Game.Status .. "\nDo you want to continue?", "Project No Skid", 52) ~= 6) then
@@ -26,5 +26,5 @@ local load = function(Name)
 end;
 
 if (game.PlaceId == 258258996) then
-    load("Miners Haven Sandbox Tycoon");
+    Load("Miners Haven Sandbox Tycoon");
 end;
