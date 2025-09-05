@@ -42,4 +42,6 @@ Module.UpgradeAndSell = function(Obj: BasePart)
     Module.Sell(Obj);
 end;
 
+Module.DroppedParts = Workspace.DroppedParts[Module.GetClient().Name];
+
 return Module;
