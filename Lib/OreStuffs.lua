@@ -1,14 +1,14 @@
 local Module = {};
 local Players = game:GetService("Players");
 local Workspace = game:GetService("Workspace");
-local LocalPlayer = Players.LocalPlayer;
+--local LocalPlayer = Players.LocalPlayer;
 local firetouchinterest = print
 
 Module.GetClient = function(): Model
 	local Tycoons: Model = Workspace:WaitForChild("Tycoons");
 	for i, v: Model in (Tycoons:GetChildren()) do
 		local Owner: StringValue = v:FindFirstChild("Owner");
-		if (Owner and Owner.Value == (LocalPlayer.Name or "rthyhrtijkler5tau")) then
+		if (Owner and Owner.Value == "rthyhrtijkler5tau") then
 			return v;
 		end;
 	end;
