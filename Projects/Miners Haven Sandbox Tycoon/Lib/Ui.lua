@@ -1,3 +1,4 @@
+shared.Flags = {};
 while (not shared.Lodded) do task.wait() end;
 
 local Players = game:GetService("Players");
