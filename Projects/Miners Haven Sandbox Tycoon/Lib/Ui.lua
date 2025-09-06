@@ -1,5 +1,4 @@
-shared.Flags = {};
-while (not shared.Lodded) do task.wait() end;
+while (not shared.Loaded) do task.wait() end;
 
 local Players = game:GetService("Players");
 local ReplicatedStorage = game:GetService("ReplicatedStorage");
