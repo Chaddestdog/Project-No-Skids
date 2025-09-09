@@ -25,7 +25,7 @@ end;
 do --// Player
 	local PlayerSettings = {
 		Box = {Enabled = false, Box = false, Color = Color3.fromRGB(255, 255, 255), Weapon = false, Health = false, Name = false, Dist = false},
-		Skeleton = {Enabled = false, Color = Color3.fromRGB(255, 255, 255)},
+		Skeleton = {Enabled = false, Color = Color3.fromRGB(255, 255, 255), HeadDot = false},
 		HasEsp = {}
 	};
 	
@@ -47,6 +47,18 @@ do --// Player
 		local Health :Frame = Esp.Health;
 		local Name: TextLabel = Esp.Name_;
 		local Dist: TextLabel = Esp.Dist;
+		
+		local Skeleton = Instance.new("WireframeHandleAdornment", CoreGui.RobloxGui);
+		Skeleton.AlwaysOnTop = true;
+		Skeleton.Adornee = workspace;
+
+		local HeadDot = Instance.new("SphereHandleAdornment", CoreGui.RobloxGui);
+		HeadDot.Visible = false;
+		HeadDot.Adornee = Character.Head;
+		HeadDot.Transparency = 0.5;
+		HeadDot.AlwaysOnTop = true;
+		HeadDot.Radius = (Character.Head.Size.Unit.Magnitude / 1.65);
+		HeadDot.ZIndex = 2;
 		
 		Weapon.FontFace = Settings.Font;
 		Name.FontFace = Settings.Font;
@@ -113,6 +125,40 @@ do --// Player
 					Esp.Enabled = false;
 				end
 
+				--// Skeleton
+				if (PlayerSettings.Skeleton.Enabled) then
+					Skeleton:Clear();
+					local HeadOffset = (Character.Head.CFrame * -Vector3.new(0, (Character.Head.Size.Y/2), 0));
+					Skeleton.Color3 = PlayerSettings.Skeleton.Color;
+					Skeleton:AddLines({
+						HeadOffset, Character.UpperTorso.Position,
+						Character.UpperTorso.Position, Character.LowerTorso.Position,
+						HeadOffset, Character.RightUpperArm.Position,
+						Character.RightUpperArm.Position, Character.RightLowerArm.Position,
+						Character.RightLowerArm.Position, Character.RightHand.Position,
+						HeadOffset, Character.LeftUpperArm.Position,
+						Character.LeftUpperArm.Position, Character.LeftLowerArm.Position,
+						Character.LeftLowerArm.Position, Character.LeftHand.Position,
+						Character.LowerTorso.Position, Character.RightUpperLeg.Position,
+						Character.RightUpperLeg.Position, Character.RightLowerLeg.Position,
+						Character.RightLowerLeg.Position, Character.RightFoot.Position,
+						Character.LowerTorso.Position, Character.LeftUpperLeg.Position,
+						Character.LeftUpperLeg.Position, Character.LeftLowerLeg.Position,
+						Character.LeftLowerLeg.Position, Character.LeftFoot.Position
+					});
+					
+					if (PlayerSettings.Skeleton.HeadDot) then
+						HeadDot.Visible = true;
+						HeadDot.Color3 = PlayerSettings.Skeleton.Color;
+					else
+						HeadDot.Visible = false;
+					end;
+				else
+					HeadDot.Visible = false;
+					Skeleton:Clear();
+				end;
+
+
 
 			end);
 		end)
@@ -123,6 +169,8 @@ do --// Player
 				Connection1:Disconnect();
 				Connection2:Disconnect();
 				task.cancel(Thread);
+				Skeleton:Destroy();
+				HeadDot:Destroy();
 				Esp:Destroy();
 			end;
 		end);
@@ -154,4 +202,4 @@ do --// Item
 	Settings.Item = ItemSettings;
 end;
 
-return {Settings, PlayerEsp, NpcEsp, ItemEsp};
+return {Settings, PlayerEsp, NpcEsp, ItemEsp}
