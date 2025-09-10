@@ -8,6 +8,8 @@ local GetService = function(Service) return Cloneref(UserSettings().GetService(g
 
 local RunService: RunService = GetService("RunService");
 local CoreGui: PlayerGui = (cloneref and GetService("CoreGui") or GetService("Players").LocalPlayer.PlayerGui);
+CoreGui.RobloxGui.ZIndexBehavior = Enum.ZIndexBehavior.Global
+
 
 local PreFab = (cloneref and game:GetObjects("rbxassetid://134588751279564")[1] or script.Prefab):Clone();
 local CurrentCamera = workspace.CurrentCamera;
@@ -20,7 +22,7 @@ local NpcEsp;
 
 do --// Types
 	type table = typeof({});
-	type func = typeof(function() end)
+	type func = typeof(function() end);
 end;
 
 do --// Player
