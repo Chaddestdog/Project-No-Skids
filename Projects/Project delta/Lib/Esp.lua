@@ -11,6 +11,7 @@ local CoreGui: PlayerGui = (cloneref and GetService("CoreGui") or GetService("Pl
 
 local PreFab = (cloneref and game:GetObjects("rbxassetid://134588751279564")[1] or script.Prefab):Clone();
 local CurrentCamera = workspace.CurrentCamera;
+local Middle = (CurrentCamera.ViewportSize / 2);
 
 local Settings = {Font = Font.fromEnum(Enum.Font.Code)};
 local PlayerEsp;
@@ -26,8 +27,9 @@ do --// Player
 	local PlayerSettings = {
 		Box = {Enabled = false, Box = false, Color = Color3.fromRGB(255, 255, 255), Weapon = false, Health = false, Name = false, Dist = false},
 		Skeleton = {Enabled = false, Color = Color3.fromRGB(255, 255, 255), HeadDot = false},
+		OffScreenArrow = {Enabled = false, Color = Color3.fromRGB(255, 255, 255), Fov = 120},
 		HasEsp = {}
-	};
+	}; 
 	
 	PlayerEsp = function(Player: Player, GetBoundingBox: func, CallBack: func)
 		local Connection1, Connection2, Thread;
@@ -47,6 +49,11 @@ do --// Player
 		local Health :Frame = Esp.Health;
 		local Name: TextLabel = Esp.Name_;
 		local Dist: TextLabel = Esp.Dist;
+		local Arrow: ImageLabel = Esp.Arrow;
+		Arrow.Parent = CoreGui.RobloxGui;
+		Arrow.Image = ("rbxassetid://104818498825314");
+
+		
 		
 		local Skeleton = Instance.new("WireframeHandleAdornment", CoreGui.RobloxGui);
 		Skeleton.AlwaysOnTop = true;
@@ -66,8 +73,29 @@ do --// Player
 		
 		Thread = task.spawn(function()
 			Connection1 = RunService.RenderStepped:Connect(function(DeltaTime: number) 
-				local _, on = CurrentCamera:WorldToViewportPoint(HumanoidRootPart.Position);
-				if (not on) then Esp.Enabled = false return else Esp.Enabled = true end;
+				local Point, On = CurrentCamera:WorldToViewportPoint(HumanoidRootPart.Position);
+				
+				if (not On) then 
+					--// OffScreen Arrow
+					if (PlayerSettings.OffScreenArrow.Enabled) then
+						Arrow.Visible = true;
+						local Dir : Vector2 = (Vector2.new(Point.X, Point.Y) - Middle);
+						if (Point.Z < 0) then Dir = -Dir end;
+						if (Dir.Magnitude > 0) then Dir = (Dir.Unit * PlayerSettings.OffScreenArrow.Fov) end;
+						Arrow.Position = UDim2.fromOffset(Middle.X + Dir.X, Middle.Y + Dir.Y);
+						Arrow.Rotation =( math.deg(math.atan2(Dir.Y, Dir.X)) + 90);
+					else
+						Arrow.Visible = false;
+					end;
+					Esp.Enabled = false;
+					Skeleton:Clear();
+					HeadDot.Visible = false;
+					return;
+				else
+					Arrow.Visible = false;
+					Esp.Enabled = true;
+				end;
+				
 				CallBack(Esp);
 				
 				local Position, Size = GetBoundingBox(Player.Character);
@@ -107,7 +135,7 @@ do --// Player
 					if (PlayerSettings.Box.Name) then
 						Name.Visible = true;
 						Name.TextColor3 = PlayerSettings.Box.Color;
-						Name.Text = Player.DisplayName;
+						Name.Text = Player.Name;
 					else
 						Name.Visible = false;
 					end
@@ -158,7 +186,7 @@ do --// Player
 					Skeleton:Clear();
 				end;
 
-
+		
 
 			end);
 		end)
