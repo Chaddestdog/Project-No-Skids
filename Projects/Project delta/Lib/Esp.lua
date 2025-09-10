@@ -8,8 +8,8 @@ local GetService = function(Service) return Cloneref(UserSettings().GetService(g
 
 local RunService: RunService = GetService("RunService");
 local CoreGui: PlayerGui = (cloneref and GetService("CoreGui") or GetService("Players").LocalPlayer.PlayerGui);
-CoreGui.RobloxGui.ZIndexBehavior = Enum.ZIndexBehavior.Global
-
+CoreGui.RobloxGui.ZIndexBehavior = Enum.ZIndexBehavior.Global;
+CoreGui.RobloxGui.ResetOnSpawn = false;
 
 local PreFab = (cloneref and game:GetObjects("rbxassetid://134588751279564")[1] or script.Prefab):Clone();
 local CurrentCamera = workspace.CurrentCamera;
@@ -201,6 +201,7 @@ do --// Player
 				task.cancel(Thread);
 				Skeleton:Destroy();
 				HeadDot:Destroy();
+				Arrow:Destroy();
 				Esp:Destroy();
 			end;
 		end);
