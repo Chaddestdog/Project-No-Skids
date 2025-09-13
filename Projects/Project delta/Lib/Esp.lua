@@ -54,7 +54,7 @@ do --// Player
 		local Arrow: ImageLabel = Esp.Arrow;
 		Arrow.Parent = CoreGui.RobloxGui;
 		Arrow.Image = ("rbxassetid://104818498825314");
-
+		Esp.ResetOnSpawn = false
 		
 		
 		local Skeleton = Instance.new("WireframeHandleAdornment", CoreGui.RobloxGui);
