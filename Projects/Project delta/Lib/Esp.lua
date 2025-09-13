@@ -36,7 +36,7 @@ do --// Player
 	PlayerEsp = function(Player: Player, GetBoundingBox: func, CallBack: func)
 		local Connection1, Connection2, Thread;
 		local Character = Player.Character;
-		local HumanoidRootPart: BasePart = Character:WaitForChild("HumanoidRootPart");
+		local HumanoidRootPart: BasePart = Character:FindFirstChild("HumanoidRootPart");
 		if (not HumanoidRootPart) then return end;
 		if (rawget(PlayerSettings.HasEsp, Player)) then return end;
 		
