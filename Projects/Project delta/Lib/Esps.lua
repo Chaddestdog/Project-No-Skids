@@ -196,6 +196,7 @@ do --// Player
 		
 		Connection2 = Character:FindFirstChild("Head").AncestryChanged:Connect(function(self: Instance, Parent: Instance) 
 			if (Parent == nil or not Parent.Character:FindFirstChild("LeftLowerLeg")) then
+					print("Disconnect", Player.Name)
 				rawset(PlayerSettings.HasEsp, Player, false);
 				Connection1:Disconnect();
 				Connection2:Disconnect();
