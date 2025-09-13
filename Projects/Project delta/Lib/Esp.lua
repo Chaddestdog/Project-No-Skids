@@ -76,6 +76,7 @@ do --// Player
 		Thread = task.spawn(function()
 			Connection1 = RunService.RenderStepped:Connect(function(DeltaTime: number) 
 				local Point, On = CurrentCamera:WorldToViewportPoint(HumanoidRootPart.Position);
+				if (not Character:FindFirstChild("Head")) then return end;
 				
 				if (not On) then 
 					--// OffScreen Arrow
@@ -193,8 +194,8 @@ do --// Player
 			end);
 		end)
 		
-		Connection2 = Character.AncestryChanged:Connect(function(self: Instance, Parent: Instance) 
-			if (Parent == nil) then
+		Connection2 = Character:FindFirstChild("Head").AncestryChanged:Connect(function(self: Instance, Parent: Instance) 
+			if (Parent == nil or not Parent.Character:FindFirstChild("LeftLowerLeg")) then
 				rawset(PlayerSettings.HasEsp, Player, false);
 				Connection1:Disconnect();
 				Connection2:Disconnect();
